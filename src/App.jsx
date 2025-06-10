@@ -10,17 +10,19 @@ function App() {
 
   return (
     <div className='bg-[#212121] min-h-screen'>
-      <SignedOut>
-        <Home />
-      </SignedOut>
+      <header>
+        <SignedOut>
+          <Home />
+        </SignedOut>
 
-      <SignedIn>
-        {/* Chat Interface for Signed In Users */}
-        <div className='flex h-screen'>
-          <Sidebar isMobileOpen={isMobileOpen} toggleMobileSidebar={toggleMobileSidebar} />
-          <Chatarea />
-        </div>
-      </SignedIn>
+        <SignedIn>
+          {/* Chat Interface for Signed In Users */}
+          <div className='flex h-screen'>
+            <Sidebar isMobileOpen={isMobileOpen} toggleMobileSidebar={toggleMobileSidebar} />
+            <Chatarea />
+          </div>
+        </SignedIn>
+      </header>
     </div>
   );
 }
