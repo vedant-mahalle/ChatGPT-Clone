@@ -32,9 +32,12 @@ Welcome to the ChatGPT Clone, a sleek and responsive AI chatbot interface built 
 ![image](https://github.com/user-attachments/assets/f360832d-8ac1-4a2c-96e4-f3eaa96f953c)
 
 
-### Responsive View
 
-![Responsive View Screenshot](placeholder_responsive_view.png)
+### Responsive View
+  <div style="display: flex; justify-content: center; gap: 30px;">
+  <img src="https://github.com/user-attachments/assets/c9c7a30f-eb03-40cd-8bfb-fcbf9c81b142" alt="Image 1" style="max-width: 48%;">
+  <img src="https://github.com/user-attachments/assets/2577a785-370e-479e-bf6b-deac2e4d9c85" alt="Image 2" style="max-width: 48%;">
+</div>
 
 ## 🚀 Getting Started
 
