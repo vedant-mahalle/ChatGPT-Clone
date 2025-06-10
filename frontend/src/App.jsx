@@ -3,6 +3,7 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-reac
 import Chatarea from "./Components/Chat";
 import Sidebar from "./Components/Sidebar";
 import Home from './Components/Home';
+import { ChatProvider } from './Components/ChatContext';
 
 function App() {
   const [isMobileOpen, setIsMobileOpen] = useState(true);
@@ -17,10 +18,12 @@ function App() {
 
         <SignedIn>
           {/* Chat Interface for Signed In Users */}
-          <div className='flex h-screen'>
-            <Sidebar isMobileOpen={isMobileOpen} toggleMobileSidebar={toggleMobileSidebar} />
-            <Chatarea />
-          </div>
+          <ChatProvider>
+            <div className='flex h-screen'>
+              <Sidebar isMobileOpen={isMobileOpen} toggleMobileSidebar={toggleMobileSidebar} />
+              <Chatarea />
+            </div>
+          </ChatProvider>
         </SignedIn>
       </header>
     </div>
