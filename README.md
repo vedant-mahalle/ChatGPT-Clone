@@ -24,11 +24,13 @@ Welcome to the ChatGPT Clone, a sleek and responsive AI chatbot interface built 
 
 ### Home Page (Signed Out)
 
-![Home Page Screenshot](placeholder_home_page.png)
+![Home Page Screenshot]
+![image](https://github.com/user-attachments/assets/cc862401-064d-4b03-acee-842fa2a078f0)
 
 ### Chat Interface (Signed In)
 
-![Chat Interface Screenshot](placeholder_chat_interface.png)
+![image](https://github.com/user-attachments/assets/f360832d-8ac1-4a2c-96e4-f3eaa96f953c)
+
 
 ### Responsive View
 
