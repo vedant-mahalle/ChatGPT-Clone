@@ -1,4 +1,5 @@
 import { SignInButton } from "@clerk/clerk-react";
+import chatifyIcon from '../assets/chatify-icon.svg';
 
 export default function Home() {
   return (
@@ -17,7 +18,10 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col items-center justify-center max-w-2xl mx-auto">
-        <h1 className="text-4xl font-bold mb-6">ChatGPT</h1>
+        <div className="flex items-center gap-3 mb-6">
+          <img src={chatifyIcon} className="h-12" alt="Chatify" />
+          <h1 className="text-4xl font-bold">Chatify</h1>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 w-full">
           <div className="p-4 bg-[#2b2b2b] rounded-lg">
@@ -58,7 +62,7 @@ export default function Home() {
         <div className="w-full relative max-w-2xl">
           <input
             type="text"
-            placeholder="Message ChatGPT..."
+            placeholder="Message Chatify..."
             className="w-full p-4 pr-16 bg-[#3b3b3b] rounded-lg focus:outline-none"
             onClick={() => document.querySelector('button')?.focus()}
           />
@@ -85,7 +89,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="text-xs text-gray-500 py-4">
-        <p>© 2023 ChatGPT Clone. By signing up, you agree to our Terms of Service and Privacy Policy.</p>
+        <p>© {new Date().getFullYear()} Chatify. By signing up, you agree to our Terms of Service and Privacy Policy.</p>
       </footer>
     </div>
   );

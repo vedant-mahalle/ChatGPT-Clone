@@ -98,7 +98,7 @@ export default function Sidebar({ isMobileOpen, toggleMobileSidebar }) {
                                 whileTap={{ scale: 0.95 }}
                                 onClick={handleNewChat}
                                 className={`
-                                    flex items-center gap-2 px-3 py-2 rounded-md
+                                    flex items-center gap-2 px-2 py-2 rounded-md
                                     bg-[#10a37f] hover:bg-[#0d8a6d] transition-colors
                                 `}
                                 aria-label="Start new chat"
