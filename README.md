@@ -95,6 +95,33 @@ Contributions are welcome! Feel free to open issues or submit pull requests.
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details (if you have one, otherwise remove this section).
 
+## 🚀 Production Deployment
+
+### Frontend (Vercel)
+1. Push your code to GitHub (frontend in `frontend/` folder).
+2. Go to [vercel.com](https://vercel.com/), import your repo, and set the project root to `frontend`.
+3. Set environment variables in Vercel dashboard:
+   - `VITE_BACKEND_URL=https://your-backend.onrender.com`
+   - `VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key`
+4. Deploy and get your live frontend URL.
+
+### Backend (Render)
+1. Push your backend code to GitHub (backend in `server/` folder).
+2. Go to [render.com](https://render.com/), create a new Web Service, and set the root to `server`.
+3. Set environment variables in Render dashboard:
+   - `MONGO_URI=your_mongodb_atlas_connection_string`
+   - `PORT=5000`
+4. Set build command: `npm install`
+5. Set start command: `node index.js`
+6. Deploy and get your live backend URL.
+
+### MongoDB Atlas
+- Make sure your Render backend's IP is allowed in Atlas's Network Access settings.
+
+### Connect Everything
+- In Vercel, set `VITE_BACKEND_URL` to your Render backend URL.
+- In Render, set `MONGO_URI` to your Atlas connection string.
+
 ---
 
 Made with ❤️ by Your Name/Organization
