@@ -1,9 +1,13 @@
 {
   "name": "server",
+  "homepage": "https://github.com/vedant-mahalle/ChatGPT-Clone",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "predeploy": "npm run build",
+    "build": "react-scripts build",
+    "deploy": "gh-pages -d build"
   },
   "keywords": [],
   "author": "",

@@ -5,12 +5,13 @@ import send from '../assets/send.png';
 import attachment from '../assets/attachment.png';
 import chatifyIcon from '../assets/chatify-icon.svg';
 import newChatIcon from '../assets/newChat.png';
+import saveIcon from '../assets/save.svg';
 import generateResponse from '../AIChatBot';
 import { ChatContext } from './ChatContext';
 import CodeBlock from './CodeBlock';
 
 export default function Chatarea() {
-    const { chatHistory, setChatHistory, activeChat, setActiveChat } = useContext(ChatContext);
+    const { chatHistory, setChatHistory, activeChat, setActiveChat, saveChatToBackend } = useContext(ChatContext);
     const [prompt, setPrompt] = useState("");
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef(null);
@@ -56,29 +57,31 @@ export default function Chatarea() {
         setPrompt(prev => prev ? `${prev} ${fileMarkdownLink}` : fileMarkdownLink);
     };
 
-    const summarizeChat = async (messages) => {
-        if (messages.length === 0) return { title: "Empty conversation", summary: "" };
+    // Summarize and title the chat using Gemini
+    const generateChatTitle = async (messages) => {
+        if (!messages || messages.length === 0) return 'Untitled Chat';
         const chatText = messages.map(m => `${m.type === 'query' ? 'User' : 'AI'}: ${m.content}`).join("\n");
-        const summaryPrompt = `Summarize the following conversation in 50 words or less and provide a concise title (5-10 words):\n\n${chatText}\n\nReturn the response in JSON format: {"title": "...", "summary": "..."}`;
-
+        const titlePrompt = `Given the following conversation between a user and an AI assistant, generate a short, descriptive title (max 8 words) that best summarizes the main topic or purpose of the chat. Only return the title, no extra text.\n\n${chatText}`;
         try {
-            const response = await generateResponse(summaryPrompt);
-            return JSON.parse(response);
+            const response = await generateResponse(titlePrompt);
+            // Clean up the response: remove quotes, trim whitespace, etc.
+            return response.replace(/^"|"$/g, '').trim();
         } catch (error) {
-            console.error("Error summarizing chat:", error);
-            return { title: `Conversation ${Date.now()}`, summary: "Error generating summary" };
+            console.error("Error generating chat title:", error);
+            return `Chat ${Date.now()}`;
         }
     };
 
     const handleSaveChat = async () => {
         if (!activeChat) return;
         const currentChat = chatHistory.find(chat => chat.id === activeChat);
-
         if (currentChat && currentChat.messages.length > 0) {
-            const { title, summary } = await summarizeChat(currentChat.messages);
+            const title = await generateChatTitle(currentChat.messages);
             setChatHistory(prev => prev.map(chat =>
-                chat.id === activeChat ? { ...chat, title, summary } : chat
+                chat.id === activeChat ? { ...chat, title } : chat
             ));
+            // Save to backend
+            saveChatToBackend({ ...currentChat, title });
         } else if (currentChat) {
             setChatHistory(prev => prev.map(chat =>
                 chat.id === activeChat && !chat.title ? { ...chat, title: `Empty conversation ${chat.id}` } : chat
@@ -98,11 +101,13 @@ export default function Chatarea() {
 
         const uniqueKey = Date.now();
         const userQuery = { type: 'query', id: uniqueKey, content: prompt };
+        let chatId = activeChat;
 
         if (!activeChat) {
             const newChat = { id: uniqueKey, title: `New conversation ${chatHistory.length + 1}`, messages: [userQuery] };
             setChatHistory(prev => [newChat, ...prev]);
             setActiveChat(newChat.id);
+            chatId = newChat.id; // Use this for the rest of the function
         } else {
             setChatHistory(prev => prev.map(chat =>
                 chat.id === activeChat ? { ...chat, messages: [...(chat.messages || []), userQuery] } : chat
@@ -116,13 +121,13 @@ export default function Chatarea() {
             const responseContent = await generateResponse(prompt);
             const botResponse = { type: 'response', id: Date.now(), content: responseContent };
             setChatHistory(prev => prev.map(chat =>
-                chat.id === activeChat ? { ...chat, messages: [...(chat.messages || []), botResponse] } : chat
+                chat.id === (chatId || activeChat) ? { ...chat, messages: [...(chat.messages || []), botResponse] } : chat
             ));
         } catch (error) {
             console.error("Error generating response:", error);
             const errorResponse = { type: 'response', id: Date.now(), content: "Sorry, something went wrong." };
             setChatHistory(prev => prev.map(chat =>
-                chat.id === activeChat ? { ...chat, messages: [...(chat.messages || []), errorResponse] } : chat
+                chat.id === (chatId || activeChat) ? { ...chat, messages: [...(chat.messages || []), errorResponse] } : chat
             ));
         } finally {
             setIsTyping(false);
@@ -207,6 +212,7 @@ export default function Chatarea() {
                 </h1>
                 <div className='flex items-center gap-4'>
                     <button onClick={handleSaveChat} className='p-2 rounded-full hover:bg-gray-700 transition-colors' title="Save Chat">
+                        <img src={saveIcon} className='h-5' alt="Save" />
                     </button>
                     <button onClick={handleStartNewChat} className='p-2 rounded-full hover:bg-gray-700 transition-colors' title="New Chat">
                         <div className='flex gap-2 justify-center items-center'>

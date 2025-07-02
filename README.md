@@ -1,6 +1,6 @@
-# 🚀 ChatGPT Clone
+# 🚀 Chatify
 
-Welcome to the ChatGPT Clone, a sleek and responsive AI chatbot interface built with React. This project aims to replicate the core functionalities of popular AI chat applications, providing a seamless and interactive user experience.
+Welcome to Chatify, a sleek and responsive AI chatbot interface built with React. This project aims to provide a seamless and interactive chat experience with AI capabilities.
 
 ## ✨ Features
 
